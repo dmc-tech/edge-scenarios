@@ -113,13 +113,15 @@ metadata:
   name: demo-data
 spec:
   edgevolume: esa-pvc
-  path: exampleSubDir # If you change this path, line 33 in deploymentExample.yaml must be updated. Don't use a preceding slash.
+  path: / # If you change this path, line 33 in deploymentExample.yaml must be updated. Don't use a preceding slash.
   auth:
     authType: MANAGED_IDENTITY
   storageaccountendpoint: "https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/"
   container: fault-detection
   ingestPolicy: edgeingestpolicy-demo # Optional: See the following instructions if you want to update the ingestPolicy with your own configuration
----
+EOF
+
+kubectl apply -f - <<EOF
 apiVersion: arccontainerstorage.azure.net/v1
 kind: EdgeIngestPolicy
 metadata:
