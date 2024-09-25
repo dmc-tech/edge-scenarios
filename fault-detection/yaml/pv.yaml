@@ -22,7 +22,7 @@ spec:
   path: demo-data # If you change this path, line 33 in deploymentExample.yaml must be updated. Don't use a preceding slash.
   auth:
     authType: MANAGED_IDENTITY
-  storageaccountendpoint: "https://arcjumpstartfddemone001.blob.core.windows.net/"
+  storageaccountendpoint: "https://dmctecharciotesademo.blob.core.windows.net/"
   container: fault-detection
   ingestPolicy: edgeingestpolicy-demo # Optional: See the following instructions if you want to update the ingestPolicy with your own configuration
 ---

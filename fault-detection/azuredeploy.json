@@ -109,7 +109,7 @@
             "metadata": {
                 "description": "Target GitHub account"
             },
-            "defaultValue": "microsoft"
+            "defaultValue": "dmc-tech"
         },
         "githubBranch": {
             "type": "string",
@@ -154,7 +154,7 @@
         }
     },
     "variables": {
-        "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/azure_arc/', parameters('githubBranch'), '/azure_edge_iot_ops_jumpstart/esa_fault_detection/')]",
+        "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/edge-scenarios/', parameters('githubBranch'), '/fault-detection/')]",
         "vmName": "[concat(parameters('vmName'))]",
         "publicIpAddressName": "[concat(parameters('vmName'), '-PIP' )]",
         "networkInterfaceName": "[concat(parameters('vmName'),'-NIC')]",
@@ -209,9 +209,7 @@
             "type": "Microsoft.Network/networkSecurityGroups/securityRules",
             "apiVersion": "2022-05-01",
             "condition": "[parameters('deployBastion')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
-            ],
+            "dependsOn": [],
             "name": "[concat(variables('networkSecurityGroupName'),'/allow_RDP_3389')]",
             "properties": {
                 "priority": 1001,
@@ -251,20 +249,6 @@
                         }
                     }
                 ]
-            }
-        },
-        {
-            "type": "Microsoft.Network/publicIpAddresses",
-            "apiVersion": "2022-07-01",
-            "name": "[variables('publicIpAddressName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "publicIpAllocationMethod": "Static",
-                "publicIPAddressVersion": "IPv4",
-                "idleTimeoutInMinutes": 4
-            },
-            "sku": {
-                "name": "[if(not(parameters('deployBastion')),'Basic','Standard')]"
             }
         },
         {
