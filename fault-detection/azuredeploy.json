@@ -178,9 +178,7 @@
             "apiVersion": "2022-07-01",
             "name": "[variables('networkInterfaceName')]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
-            ],
+            "dependsOn": [],
             "properties": {
                 "ipConfigurations": [
                     {
@@ -352,8 +350,8 @@
             "location": "[parameters('location')]",
             "apiVersion": "2022-07-01",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+               
             ],
             "properties": {
                 "ipConfigurations": [
@@ -376,10 +374,6 @@
         "adminUsername": {
             "type": "string",
             "value": "[parameters('adminUsername')]"
-        },
-        "publicIP": {
-            "type": "string",
-            "value": "[concat(reference(variables('publicIPAddressName')).IpAddress)]"
         }
     }
 }
