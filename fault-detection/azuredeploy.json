@@ -159,13 +159,13 @@
         "networkInterfaceName": "[concat(parameters('vmName'),'-NIC')]",
         "networkSecurityGroupName": "[concat(parameters('vmName'), '-NSG')]",
         "virtualNetworkName": "[concat(parameters('vmName'), '-VNET')]",
-        "bastionSubnetName": "AzureBastionSubnet",
+        
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), parameters('subnetName'))]",
-        "bastionSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('bastionSubnetName'))]",
+        
         "osDiskType": "Premium_LRS",
         "subnetAddressPrefix": "10.1.0.0/24",
         "addressPrefix": "10.1.0.0/16",
-        "bastionName": "[concat(parameters('bastionHostName'))]",
+       
         "bastionSubnetIpPrefix": "10.1.1.64/26"
     },
     "resources": [
@@ -198,23 +198,6 @@
             "apiVersion": "2019-02-01",
             "name": "[variables('networkSecurityGroupName')]",
             "location": "[parameters('location')]"
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-            "apiVersion": "2022-05-01",
-            "condition": "[parameters('deployBastion')]",
-            "dependsOn": [],
-            "name": "[concat(variables('networkSecurityGroupName'),'/allow_RDP_3389')]",
-            "properties": {
-                "priority": 1001,
-                "protocol": "TCP",
-                "access": "Allow",
-                "direction": "Inbound",
-                "sourceAddressPrefix": "[variables('bastionSubnetIpPrefix')]",
-                "sourcePortRange": "*",
-                "destinationAddressPrefix": "*",
-                "destinationPortRange": "3389"
-            }
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
