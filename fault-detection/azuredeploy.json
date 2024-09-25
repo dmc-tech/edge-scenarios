@@ -156,7 +156,6 @@
     "variables": {
         "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/edge-scenarios/', parameters('githubBranch'), '/fault-detection/')]",
         "vmName": "[concat(parameters('vmName'))]",
-        "publicIpAddressName": "[concat(parameters('vmName'), '-PIP' )]",
         "networkInterfaceName": "[concat(parameters('vmName'),'-NIC')]",
         "networkSecurityGroupName": "[concat(parameters('vmName'), '-NSG')]",
         "virtualNetworkName": "[concat(parameters('vmName'), '-VNET')]",
@@ -167,10 +166,7 @@
         "subnetAddressPrefix": "10.1.0.0/24",
         "addressPrefix": "10.1.0.0/16",
         "bastionName": "[concat(parameters('bastionHostName'))]",
-        "bastionSubnetIpPrefix": "10.1.1.64/26",
-        "PublicIPNoBastion": {
-            "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-        }
+        "bastionSubnetIpPrefix": "10.1.1.64/26"
     },
     "resources": [
         {
@@ -187,8 +183,8 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": "[if(not(parameters('deployBastion')),variables('PublicIPNoBastion'),json('null'))]"
+                            "privateIPAllocationMethod": "Dynamic"
+                        
                         }
                     }
                 ],
@@ -342,32 +338,6 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'Bootstrap')]"
             ]
-        },
-        {
-            "type": "Microsoft.Network/bastionHosts",
-            "condition": "[parameters('deployBastion')]",
-            "name": "[variables('bastionName')]",
-            "location": "[parameters('location')]",
-            "apiVersion": "2022-07-01",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
-               
-            ],
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "IpConf",
-                        "properties": {
-                            "subnet": {
-                                "id": "[variables('bastionSubnetRef')]"
-                            },
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-                            }
-                        }
-                    }
-                ]
-            }
         }
     ],
     "outputs": {
